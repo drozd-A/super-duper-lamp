@@ -1,0 +1,25 @@
+on:
+  workflow_dispatch:
+  push:
+
+env:
+  GH_TOKEN: ${{ github.token }}
+
+jobs:
+  regression-test:
+    permissions:
+      statuses: write
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.52.0-jammy
+
+    steps:
+      - name: Install GitHub CLI
+        uses: check-spelling/gh-program-downloader@v0.0.3
+        with:
+          repository: cli/cli
+          destination: ../bin/gh
+          file-re: bin/
+          add-to-path: 1
+          trace: 1
